@@ -88,9 +88,7 @@ public class ConversationParserApp {
         }
 
         for (ConversationMessage message : conversation.getMessages()) {
-            String prefix = message.getRole() == ConversationMessage.Role.USER ? "user" : "chatgpt";
-            lines.add(String.format("%s said : %s", prefix, message.getText()));
-            lines.add("");
+            appendMessage(lines, message);
 
             if (!attachmentsPrinted
                     && message.getRole() == ConversationMessage.Role.USER
@@ -101,5 +99,12 @@ public class ConversationParserApp {
             }
         }
         return lines;
+    }
+
+    private static void appendMessage(List<String> lines, ConversationMessage message) {
+        String prefix = message.getRole() == ConversationMessage.Role.USER ? "user" : "chatgpt";
+        lines.add(String.format("%s said :", prefix));
+        lines.add(message.getText());
+        lines.add("");
     }
 }
